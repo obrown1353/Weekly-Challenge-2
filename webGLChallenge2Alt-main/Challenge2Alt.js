@@ -2,7 +2,7 @@ import * as THREE from "https://unpkg.com/three@0.167.1/build/three.module.js";
 
 // Scene
 const scene = new THREE.Scene();
-scene.background = new THREE.Color(0x87ceeb);
+scene.background = new THREE.Color(0x4651ca);
 
 // Camera
 const camera = new THREE.PerspectiveCamera(
@@ -41,18 +41,6 @@ directionalLight.position.set(5, 10, 7);
 
 scene.add(directionalLight);
 
-// Ground (Bonus)
-const ground = new THREE.Mesh(
-    new THREE.PlaneGeometry(30, 30),
-    new THREE.MeshStandardMaterial({
-        color: 0x3cb043
-    })
-);
-
-ground.rotation.x = -Math.PI / 2;
-
-scene.add(ground);
-
 function createAnimal(xPosition, bodyColor) {
 
     const animal = new THREE.Group();
@@ -63,11 +51,15 @@ function createAnimal(xPosition, bodyColor) {
 
     // BODY
     const body = new THREE.Mesh(
-        new THREE.BoxGeometry(3, 1.5, 1.5),
+        new THREE.CapsuleGeometry(1, 2, 10, 23, 1),
         material
     );
 
-    body.position.set(0, 1.5, 0);
+    // Translation
+    body.position.set(0, 5, 0);
+    
+    //Rotation
+    body.rotation.z = Math.PI / 2;
 
     animal.add(body);
 
@@ -78,7 +70,7 @@ function createAnimal(xPosition, bodyColor) {
     );
 
     // Translation
-    head.position.set(2, 2, 0);
+    head.position.set(1, 5, 0);
 
     // Scaling
     head.scale.set(1.2, 1.2, 1.2);
@@ -86,85 +78,66 @@ function createAnimal(xPosition, bodyColor) {
     animal.add(head);
 
     // TAIL
-    const tail = new THREE.Mesh(
-        new THREE.CylinderGeometry(
-            0.15,
-            0.15,
-            2,
-            16
-        ),
+   const tail = new THREE.Mesh(
+        new THREE.CircleGeometry(0.5, 0),
         material
     );
+     // Translation
+    tail.position.set(-1.8, 5, 0);
 
-    tail.position.set(-1.8, 2, 0);
-
-    // Rotation
-    tail.rotation.z = Math.PI / 4;
-
+     // Scaling
+    tail.scale.set(2.5, 2.5, 1.2);
+    
     animal.add(tail);
 
-    // FOUR LEGS
-    const legGeometry =
-        new THREE.BoxGeometry(
-            0.4,
-            1.5,
-            0.4
-        );
+    // Back Fin
+   const backFin = new THREE.Mesh(
+        new THREE.CircleGeometry(0.5, 0),
+        material
+    );
+     // Translation
+    backFin.position.set(-0.5, 4, 0);
 
-    const legPositions = [
-        [-1, 0.75, -0.5],
-        [1, 0.75, -0.5],
-        [-1, 0.75, 0.5],
-        [1, 0.75, 0.5]
-    ];
+     // Scaling
+    backFin.scale.set(1, 1, 1.2);
 
-    legPositions.forEach(pos => {
+    //Rotation
+    backFin.rotation.z = Math.PI / 10;
+    
+    animal.add(backFin);
 
-        const leg = new THREE.Mesh(
-            legGeometry,
-            material
-        );
+     // Back Fin
+   const dorsalFin = new THREE.Mesh(
+        new THREE.CircleGeometry(0.5, 0),
+        material
+    );
+     // Translation
+    dorsalFin.position.set(-0.5, 5.75, 0);
 
-        leg.position.set(
-            pos[0],
-            pos[1],
-            pos[2]
-        );
+     // Scaling
+    dorsalFin.scale.set(1.75, 2.25, 1.2);
 
-        animal.add(leg);
-    });
+    //Rotation
+    dorsalFin.rotation.z = Math.PI / 12;
+    
+    animal.add(dorsalFin);
 
-    // EYES
+    // EYE
     const eyeMaterial =
         new THREE.MeshStandardMaterial({
-            color: 0x000000
+            color: 0x2a2e58
         });
-
-    const leftEye = new THREE.Mesh(
+        
+    const eye = new THREE.Mesh(
         new THREE.SphereGeometry(0.1, 16, 16),
         eyeMaterial
     );
+    //Translate
+    eye.position.set(1.5, 5.30, 1 );
+    //Scaling
+    eye.scale.set(2, 2, 2);
 
-    leftEye.position.set(
-        2.8,
-        2.2,
-        0.25
-    );
-
-    animal.add(leftEye);
-
-    const rightEye = new THREE.Mesh(
-        new THREE.SphereGeometry(0.1, 16, 16),
-        eyeMaterial
-    );
-
-    rightEye.position.set(
-        2.8,
-        2.2,
-        -0.25
-    );
-
-    animal.add(rightEye);
+    animal.add(eye);
 
     animal.position.x = xPosition;
 
@@ -172,44 +145,55 @@ function createAnimal(xPosition, bodyColor) {
 }
 
 // Main Animal
-createAnimal(0, 0xffa500);
+createAnimal(0, 0xf09f0d);
 
-// Bonus: Toy Ball
-const toyBall = new THREE.Mesh(
+// Bonus: Bubbles
+const bubble1 = new THREE.Mesh(
     new THREE.SphereGeometry(0.4, 32, 32),
     new THREE.MeshStandardMaterial({
-        color: 0xff0000
+        color: 0x13e4e5
     })
 );
 
-toyBall.position.set(3, 0.4, 0);
+bubble1.position.set(3, 5, 0);
 
-scene.add(toyBall);
+bubble1.scale.set(0.5, 0.5, 0.5);
 
-// Half the trees remain
-for (let i = -10; i <= 10; i += 4) {
+scene.add(bubble1);
 
-    const tree = new THREE.Mesh(
-        new THREE.ConeGeometry(
-            2.1,
-            6.6,
-            8
-        ),
-        new THREE.MeshStandardMaterial({
-            color: 0x228b22
-        })
-    );
+// Bonus: Bubbles
+const bubble2 = new THREE.Mesh(
+    new THREE.SphereGeometry(0.4, 32, 32),
+    new THREE.MeshStandardMaterial({
+        color: 0x13e4e5
+    })
+);
 
-    tree.position.set(
-        i,
-        3.3,
-        -4
-    );
+bubble2.position.set(3.5, 5.5, 0);
 
-    tree.scale.set(3, 3, 3);
+bubble2.scale.set(0.25, 0.25, 0.25);
 
-    scene.add(tree);
-}
+scene.add(bubble2);
+
+// Bonus: Bubbles
+const bubble3 = new THREE.Mesh(
+    new THREE.SphereGeometry(0.4, 32, 32),
+    new THREE.MeshStandardMaterial({
+        color: 0x13e4e5
+    })
+);
+
+bubble3.position.set(3.25, 6, 0);
+
+bubble3.scale.set(0.15, 0.15, 0.15);
+
+scene.add(bubble3);
+
+
+
+
+
+
 
 // Animation Loop
 function animate() {
@@ -218,7 +202,7 @@ function animate() {
         animate
     );
 
-    toyBall.rotation.y += 0.03;
+    bubble1.rotation.y += 0.03;
 
     renderer.render(
         scene,
